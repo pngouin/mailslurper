@@ -116,7 +116,7 @@ GetCORSWWWAddress returns a full protocol, address and port for the web applicat
 func (config *Configuration) GetCORSWWWAddress() string {
 	result := "http"
 
-	if config.CertFile != "" && config.KeyFile != "" {
+	if config.AdminCertFile != "" && config.AdminKeyFile != "" {
 		result += "s"
 	}
 

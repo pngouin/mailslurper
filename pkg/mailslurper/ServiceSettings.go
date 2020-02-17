@@ -10,7 +10,7 @@ and talk to the MailSlurper service tier.
 */
 type ServiceSettings struct {
 	AuthenticationScheme string `json:"authenticationScheme"`
-	IsSSL                bool   `json:"isSSL"`
+	// IsSSL                bool   `json:"isSSL"`
 	ServiceAddress       string `json:"serviceAddress"`
 	ServicePort          int    `json:"servicePort"`
 	Version              string `json:"version"`
