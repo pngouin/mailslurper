@@ -523,7 +523,10 @@
 	var mailListTemplate = null;
 	var searchMailModalTemplate = null;
 
-	var serviceURL = window.SettingsService.getServiceURL(window.SettingsService.retrieveServiceSettings());
+	var serviceURL;
+	window.SettingsService.retrieveServiceSettings().then(function(url) {
+		serviceURL = window.SettingsService.getServiceURL(url);
+	});
 
 	window.AlertService.block("Loading");
 
