@@ -75,7 +75,13 @@ window.SettingsService = {
         }
 
         var protocol = (serviceSettings.isPublicSSL) ? "https:" : "http:";
-        var serviceURL = protocol + "//" + serviceAddress + ":" + serviceSettings.servicePublicPort;
+        console.log("Service Port is " + serviceSettings.servicePublicPort);
+        if(serviceSettings.servicePublicPort === 0) {
+            var serviceURL = protocol + "//" + serviceAddress;
+        } else {
+            var serviceURL = protocol + "//" + serviceAddress + ":" + serviceSettings.servicePublicPort;
+        }
+        
         return serviceURL;
     },
 
