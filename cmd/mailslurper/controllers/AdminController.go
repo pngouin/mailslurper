@@ -9,8 +9,8 @@ import (
 	"sync"
 
 	"github.com/gorilla/sessions"
-	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
 	"github.com/mailslurper/mailslurper/pkg/auth/auth"
 	"github.com/mailslurper/mailslurper/pkg/auth/authfactory"
 	"github.com/mailslurper/mailslurper/pkg/cache"
@@ -144,9 +144,11 @@ func (c *AdminController) GetServiceSettings(ctx echo.Context) error {
 
 	settings := mailslurper.ServiceSettings{
 		AuthenticationScheme: c.Config.AuthenticationScheme,
-		// IsSSL:                c.Config.IsServiceSSL(),
+		IsPublicSSL:          c.Config.GetIsServicePublicSSL(),
 		ServiceAddress:       c.Config.ServiceAddress,
 		ServicePort:          c.Config.ServicePort,
+		ServicePublicAddress: c.Config.ServicePublicAddress,
+		ServicePublicPort:    c.Config.ServicePublicPort,
 		Version:              c.ServerVersion,
 	}
 

@@ -21,25 +21,31 @@ configuration file with settings for how to bind
 servers and connect to databases.
 */
 type Configuration struct {
-	WWWAddress       string `json:"wwwAddress"`
-	WWWPort          int    `json:"wwwPort"`
-	ServiceAddress   string `json:"serviceAddress"`
-	ServicePort      int    `json:"servicePort"`
-	SMTPAddress      string `json:"smtpAddress"`
-	SMTPPort         int    `json:"smtpPort"`
-	DBEngine         string `json:"dbEngine"`
-	DBHost           string `json:"dbHost"`
-	DBPort           int    `json:"dbPort"`
-	DBDatabase       string `json:"dbDatabase"`
-	DBUserName       string `json:"dbUserName"`
-	DBPassword       string `json:"dbPassword"`
-	MaxWorkers       int    `json:"maxWorkers"`
-	AutoStartBrowser bool   `json:"autoStartBrowser"`
-	CertFile         string `json:"certFile"`
-	KeyFile          string `json:"keyFile"`
-	AdminCertFile    string `json:"adminCertFile"`
-	AdminKeyFile     string `json:"adminKeyFile"`
-	Theme            string `json:"theme"`
+	WWWAddress           string `json:"wwwAddress"`
+	WWWPort              int    `json:"wwwPort"`
+	WWWPublicAddress     string `json:"wwwPublicAddress"`
+	WWWPublicPort        int    `json:"wwwPublicPort"`
+	ServiceAddress       string `json:"serviceAddress"`
+	ServicePort          int    `json:"servicePort"`
+	ServicePublicAddress string `json:"servicePublicAddress"`
+	ServicePublicPort    int    `json:"servicePublicPort"`
+	SMTPAddress          string `json:"smtpAddress"`
+	SMTPPort             int    `json:"smtpPort"`
+	DBEngine             string `json:"dbEngine"`
+	DBHost               string `json:"dbHost"`
+	DBPort               int    `json:"dbPort"`
+	DBDatabase           string `json:"dbDatabase"`
+	DBUserName           string `json:"dbUserName"`
+	DBPassword           string `json:"dbPassword"`
+	MaxWorkers           int    `json:"maxWorkers"`
+	AutoStartBrowser     bool   `json:"autoStartBrowser"`
+	CertFile             string `json:"certFile"`
+	KeyFile              string `json:"keyFile"`
+	AdminCertFile        string `json:"adminCertFile"`
+	AdminKeyFile         string `json:"adminKeyFile"`
+	Theme                string `json:"theme"`
+	IsAdminPublicSSL     bool   `json:"isAdminPublicSsl"`
+	IsServicePublicSSL   bool   `json:"isServicePublicSsl"`
 
 	AuthSecret           string            `json:"authSecret"`
 	AuthSalt             string            `json:"authSalt"`
@@ -96,6 +102,14 @@ func (config *Configuration) GetFullServiceAppAddress() string {
 }
 
 /*
+GetFullServiceAppAddress returns a full address and port for the MailSlurper service
+application.
+*/
+func (config *Configuration) GetFullServicePublicAppAddress() string {
+	return fmt.Sprintf("%s:%d", config.ServicePublicAddress, config.ServicePublicPort)
+}
+
+/*
 GetFullSMTPBindingAddress returns a full address and port for the MailSlurper SMTP
 server.
 */
@@ -108,6 +122,13 @@ GetFullWWWBindingAddress returns a full address and port for the Web application
 */
 func (config *Configuration) GetFullWWWBindingAddress() string {
 	return fmt.Sprintf("%s:%d", config.WWWAddress, config.WWWPort)
+}
+
+/*
+GetFullWWWBindingAddress returns a full address and port for the Web application.
+*/
+func (config *Configuration) GetFullWWWPublicBindingAddress() string {
+	return fmt.Sprintf("%s:%d", config.WWWPublicAddress, config.WWWPublicPort)
 }
 
 /*
@@ -205,6 +226,14 @@ and the services tier
 */
 func (config *Configuration) IsServiceSSL() bool {
 	return config.KeyFile != "" && config.CertFile != ""
+}
+
+func (config *Configuration) GetIsAdminPublicSSL() bool {
+	return config.IsAdminPublicSSL
+}
+
+func (config *Configuration) GetIsServicePublicSSL() bool {
+	return config.IsServicePublicSSL
 }
 
 func (config *Configuration) Validate() error {
